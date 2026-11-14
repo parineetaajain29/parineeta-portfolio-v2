@@ -537,3 +537,36 @@ html.snapping .aurora i, html.snapping .loop-track { animation-play-state: pause
 .aurora i:nth-child(2) { width: 52vw !important; height: 52vw !important; }
 .aurora i:nth-child(3) { width: 40vw !important; height: 40vw !important; }
 .stats { margin-top: 34px; }
+
+/* ===== v2.6: About pinned — one screen, every card visible, one card per scroll step ===== */
+.about { height: calc(100svh + 180svh); padding: 0; overflow: clip; }
+.about > .about-pin { position: sticky; z-index: 1; top: 0; height: 100svh; display: flex; flex-direction: column; padding-top: 78px; box-sizing: border-box; overflow: hidden; }
+.about .sec-head h2 { font-size: clamp(30px, 3.6vw, 52px); }
+.about-grid { padding-top: clamp(10px, 2svh, 24px); gap: 0 var(--gut); flex: 1; min-height: 0; align-items: center; }
+.about-copy { position: static; }
+.about-copy .lead { font-size: clamp(20px, 2.1vw, 31px); margin-bottom: 16px; }
+.about-copy p:not(.lead) { font-size: clamp(13px, 1.05vw, 15px); }
+.stats { margin: 18px 0 14px; } .stats b { font-size: clamp(36px, 4.2vw, 64px); }
+.chips { margin-top: 12px; gap: 8px; } .chips li { padding: 5px 13px; font-size: 11px; }
+.timeline { gap: clamp(10px, 1.8svh, 18px); padding-block: 0; }
+.timeline .card { padding: clamp(12px, 2svh, 20px) 24px; }
+.timeline .card h4 { font-size: clamp(17px, 1.6vw, 24px); margin: 4px 0; }
+.timeline .card p { font-size: clamp(12.5px, 1vw, 14.5px); }
+.about .loop { margin: 0 0 clamp(6px, 2svh, 20px); flex: none; }
+.about .loop-track { font-size: clamp(26px, min(4.4vw, 7svh), 66px); }
+@media (max-width: 900px) {
+  .about { height: auto; padding: 110px 0 70px; overflow: hidden; }
+  .about > .about-pin { position: static; height: auto; padding-top: 0; overflow: visible; display: block; }
+  .about-grid { gap: 40px; padding-top: 40px; align-items: start; }
+  .about .loop { margin-top: 70px; }
+}
+.about-grid { align-items: start; padding-top: clamp(14px, 3svh, 34px); }
+.timeline .card { padding: clamp(10px, 1.6svh, 16px) 22px; }
+.timeline .card h4 { font-size: clamp(16px, 1.45vw, 21px); margin: 3px 0; }
+.timeline .card p { font-size: clamp(12px, .95vw, 14px); line-height: 1.4; }
+.timeline { gap: clamp(8px, 1.5svh, 14px); }
+.about .loop { transform: rotate(-1deg); margin: auto 0 clamp(6px, 1.5svh, 16px); }
+.about .loop-track { font-size: clamp(24px, min(3.6vw, 5.6svh), 56px); }
+@media (max-width: 900px) { .about .loop { margin-top: 70px; transform: rotate(-2deg); } .about .loop-track { font-size: clamp(40px, 7vw, 104px); } }
+@media (min-width: 901px) and (max-height: 800px) { .about .loop-row.rev { display: none; } .about .loop-track { font-size: clamp(22px, 4.6svh, 40px); } .timeline .card p { line-height: 1.3; } }
+@media (min-width: 901px) and (max-height: 680px) { .about .loop { display: none; } }

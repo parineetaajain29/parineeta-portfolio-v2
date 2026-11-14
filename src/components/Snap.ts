@@ -17,11 +17,7 @@ export function useSnapScroll(enabled: boolean) {
       const dial = document.querySelector<HTMLElement>("#work"), d = topOf("#work");
       if (dial && d != null) { const n = Math.round((dial.offsetHeight / vh - 1) / 0.75) + 1; for (let i = 0; i < n; i++) t.push(d + i * 0.75 * vh); }
       const about = document.querySelector<HTMLElement>("#about"), a = topOf("#about");
-      if (about && a != null) {
-        const end = a + about.offsetHeight - vh; t.push(a);
-        for (let y = a + vh * 0.9; y < end - vh * 0.3; y += vh * 0.9) t.push(y);
-        if (end > a + vh * 0.3) t.push(end);
-      }
+      if (about && a != null) { const n = Math.round((about.offsetHeight / vh - 1) / 0.6) + 1; for (let i = 0; i < n; i++) t.push(a + i * 0.6 * vh); }
       const c = topOf("#contact"); if (c != null) t.push(c);
       return [...new Set(t.map((v) => Math.round(Math.min(max, Math.max(0, v)))))].sort((p, q) => p - q);
     };

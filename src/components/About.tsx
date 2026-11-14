@@ -15,15 +15,25 @@ export default function About() {
   const head = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    const sec = document.getElementById("about")!;
     const el = wrap.current!;
     const items = Array.from(el.querySelectorAll<HTMLElement>(".step"));
     const onScroll = () => {
-      const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        const r = el.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
+        if (line.current) line.current.style.transform = `scaleY(${p})`;
+        if (head.current) head.current.style.top = `${p * 100}%`;
+        items.forEach((it) => it.classList.toggle("on", it.getBoundingClientRect().top < vh * 0.7));
+        return;
+      }
+      /* pinned: each scroll step (0.6 of a screen) reveals the next card, all stay visible */
+      const y = window.scrollY - (sec.getBoundingClientRect().top + window.scrollY);
+      const p = Math.min(1, Math.max(0, y / (vh * 0.6 * (items.length - 1))));
       if (line.current) line.current.style.transform = `scaleY(${p})`;
       if (head.current) head.current.style.top = `${p * 100}%`;
-      items.forEach((it) => it.classList.toggle("on", it.getBoundingClientRect().top < vh * 0.7));
+      items.forEach((it, k) => it.classList.toggle("on", y >= (k * 0.6 - 0.3) * vh));
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -34,6 +44,7 @@ export default function About() {
   return (
     <section className="about" id="about">
       <Aurora />
+      <div className="about-pin">
       <header className="sec-head">
         <span className="squig" aria-hidden="true">〰</span>
         <h2><SplitText text="About" /></h2>
@@ -70,6 +81,7 @@ export default function About() {
         </div>
       </div>
       <SkillsLoop items={["Financial modelling", "Advanced Excel", "Quantitative analysis", "Brand strategy", "Valuation", "Scenario planning"]} />
+      </div>
     </section>
   );
 }
