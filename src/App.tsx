@@ -9,6 +9,7 @@ import Dial from "./components/Dial";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import { ClickSpark, Scramble, useFx } from "./components/Effects";
+import { useSnapScroll } from "./components/Snap";
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -17,6 +18,7 @@ export default function App() {
   const [past, setPast] = useState(false);
   useEffect(() => { const f = () => setPast(scrollY > innerHeight - 90); f(); addEventListener("scroll", f, { passive: true }); return () => removeEventListener("scroll", f); }, []);
   const done = useCallback(() => setReady(true), []);
+  useSnapScroll(ready && !caseOpen);
 
   useEffect(() => {
     document.body.style.overflow = ready && !caseOpen ? "" : "hidden";

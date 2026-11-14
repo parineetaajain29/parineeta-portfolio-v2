@@ -492,3 +492,21 @@ h1, h2, h3, h4 { font-weight: 500; }
 /* back to top */
 .totop { width: 54px; height: 54px; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-size: 22px; font-weight: 600; }
 .contact footer { align-items: center; }
+
+/* ===== v2.2: wheel pointer clearance + one-screen contact ===== */
+.dial-stage .sec-head h2 { font-size: clamp(24px, 2.6vw, 38px); }
+.dial-stage .sec-head { top: 74px; }
+.dial-wrap { margin-top: 96px; width: min(100%, calc(100svh - 220px)); }
+.contact { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: 84px; padding-bottom: 28px; }
+.contact .big { font-size: clamp(60px, min(15vw, 17svh), 260px); margin-bottom: clamp(16px, 3svh, 36px); }
+.ctas { margin: 0 0 clamp(16px, 3svh, 34px); }
+.rows .row { padding-block: clamp(10px, 1.8svh, 18px); }
+.row .val { font-size: clamp(18px, 2.2vw, 30px); }
+.contact footer { margin-top: clamp(16px, 3svh, 34px); }
+
+/* ===== v2.3: theme switch fixes ===== */
+.nav .tsw, .nav > div.tsw, .tsw { gap: 2px; }
+.big .line:last-child { text-shadow: none; }
+[data-theme="light"] .tsw .thumb { box-shadow: 0 2px 8px rgba(20, 33, 61, .35); }
+[data-theme="light"] .nav .tsw button { opacity: .7; }
+[data-theme="light"] .nav .tsw button.on { opacity: 1; }
