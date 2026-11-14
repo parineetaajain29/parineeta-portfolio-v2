@@ -83,7 +83,7 @@ export default function Cube({ ready }: { ready: boolean }) {
     const canvas = cv.current!, ctx = canvas.getContext("2d")!;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let stickers = makeStickers(), pics: Float32Array[] = [], raf = 0, size = 0, dpr = 1, tReady = -1;
-    let yaw = -0.62, pitch = -0.42, vyaw = 0.004, k = 0;
+    let yaw = -0.62, pitch = -0.42, vyaw = 0.0028, k = 0;
     let twist: { ax: number; layer: number; dir: number; t0: number } | null = null;
     let morph: { t0: number; swapped: boolean; reset?: boolean } | null = null;
     let moves = 0, resetPending = false;
@@ -112,7 +112,7 @@ export default function Cube({ ready }: { ready: boolean }) {
       if (tReady < 0 && readyRef.current) tReady = t;
       const pop = tReady < 0 ? 0 : 1 - Math.pow(1 - Math.min(1, (t - tReady) / 1100), 3);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, size, size);
-      if (!drag) { yaw += vyaw; vyaw += (0.004 - vyaw) * 0.02; pitch += (-0.42 + 0.1 * Math.sin(t / 2300) - pitch) * 0.03; }
+      if (!drag) { yaw += vyaw; vyaw += (0.0028 - vyaw) * 0.02; pitch += (-0.42 + 0.1 * Math.sin(t / 2300) - pitch) * 0.03; }
       let tp = 0;
       if (twist) { tp = Math.min(1, (t - twist.t0) / TW); if (tp >= 1) { commit(); tp = 0; } }
       let mf = 1;

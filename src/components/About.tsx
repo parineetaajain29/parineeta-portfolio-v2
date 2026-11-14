@@ -3,9 +3,9 @@ import { projects } from "../data/projects";
 import { useEffect, useRef } from "react";
 
 const steps = [
-  { tag: "Foundation", title: "Brand strategy", text: "Learned how narratives shape what people value, long before the numbers get involved." },
-  { tag: "Paiwand Studios", title: "Shaping brand narratives", text: "Worked on the creative side of the table: positioning, storytelling, and how a brand earns trust." },
-  { tag: "Now", title: "Master of Global Business · SP Jain", text: "Decoding markets, models, and money — financial modelling, Advanced Excel, quantitative analysis." },
+  { tag: "Startek Aegis · 2022", title: "Finance intern", text: "Built Excel reporting templates (+20% efficiency) and forecasting models at 90% accuracy; insights fed a 10% cut in operating expenses." },
+  { tag: "Paiwand Studios · 2023–24", title: "Brand strategist", text: "Integrated campaigns lifted brand visibility 45% and online activity 30%; led a 35-person workshop with 98% positive feedback." },
+  { tag: "Now", title: "Master of Global Business · SP Jain", text: "Finance specialisation: DCF, WACC and CAPM valuation models, financial modelling and quantitative analysis." },
   { tag: "Next", title: "Finance specialist", text: "Where analysis and brand thinking meet: models that make the case, and stories that make it stick." },
 ];
 
@@ -63,8 +63,9 @@ export default function About() {
             <div><b><CountUp to={1} /></b><span>case study</span></div>
           </div>
           <ul className="chips">
-            {["Financial Modelling", "Advanced Excel", "Quantitative Analysis", "Brand Strategy"].map((s) => <li key={s}>{s}</li>)}
+            {["Financial Modelling", "Advanced Excel", "DCF · WACC · CAPM", "Financial Forecasting", "Quantitative Analysis", "Brand Strategy"].map((s) => <li key={s}>{s}</li>)}
           </ul>
+          <p className="certs">Certified · Financial Markets (Yale) · Everyday Excel (UC Boulder)</p>
         </div>
         <div className="timeline" ref={wrap}>
           <div className="tl-track"><div className="tl-line" ref={line} /><span className="tl-head" ref={head} /></div>

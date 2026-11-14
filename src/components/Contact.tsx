@@ -38,6 +38,7 @@ export default function Contact() {
         <span className="line">{word("Let’s", 0)}</span>
         <span className="line">{word("talk.", 5)}</span>
       </h2>
+      <p className="seeking">Open to finance internships and graduate roles: financial analysis, valuation and FinTech.</p>
       <div className="ctas">
         <CopyEmail email={contact.email} />
         <a className="btn solid fx-mag" href={`mailto:${contact.email}`} data-hover><Scramble text="Send an email" /> ↗</a>
@@ -54,7 +55,7 @@ export default function Contact() {
         ))}
       </div>
       <footer>
-        <span>© 2026 Parineeta Jain</span>
+        <span>© 2026 Parineeta Jain · Updated Nov 2026</span>
         <span>Turning data into decisions, and decisions into brands.</span>
         <a className="totop fx-mag" href="#top" data-hover aria-label="Back to top">↑</a>
       </footer>

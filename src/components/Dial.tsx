@@ -177,6 +177,7 @@ export default function Dial({ onOpen }: { onOpen: () => void }) {
           <span className="idx">{p.index} — {p.category}</span>
           <h3>{p.title}</h3>
           <p>{p.description}</p>
+          {p.proof && <p className="proof">{p.proof}</p>}
           <ul className="tags">{p.tags.map((t) => <li key={t}>{t}</li>)}</ul>
           <div className="links">
             {p.caseStudy && (
