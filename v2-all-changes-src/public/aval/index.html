@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Aval – clickable seller app</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF3F1;--panel:#FFFFFF;--ink:#10211F;--ink2:#4A6361;--muted:#7A918E;--line:#E1EAE7;--teal:#1C6E6B;--teal-t:#FFFFFF;--gold:#A98311;--gold-bg:#F6EBC8;--ok:#1B7A4B;--bad:#B0432A;--host:#3B4A8C;--shell:#0F3B3A;--c1:#1C6E6B;--c2:#B8921C;--c3:#3B4A8C;--soft:#F4F8F7}
+:root[data-theme="dark"]{--bg:#0B1514;--panel:#142425;--ink:#E8F1EF;--ink2:#A9C0BD;--muted:#7F9B97;--line:#264042;--teal:#4FB8B2;--teal-t:#06201f;--gold:#E0B93E;--gold-bg:#3A3112;--ok:#5FD39A;--bad:#F08A6E;--host:#9AA6EA;--shell:#05100F;--c1:#4FB8B2;--c2:#E0B93E;--c3:#9AA6EA;--soft:#1A2E2F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1514;--panel:#142425;--ink:#E8F1EF;--ink2:#A9C0BD;--muted:#7F9B97;--line:#264042;--teal:#4FB8B2;--teal-t:#06201f;--gold:#E0B93E;--gold-bg:#3A3112;--ok:#5FD39A;--bad:#F08A6E;--host:#9AA6EA;--shell:#05100F;--c1:#4FB8B2;--c2:#E0B93E;--c3:#9AA6EA;--soft:#1A2E2F}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:15px;line-height:1.45;min-height:100vh}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;letter-spacing:-.02em}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+.page{max-width:1000px;margin:0 auto;padding:28px 20px;display:grid;grid-template-columns:1fr 390px;gap:56px;align-items:center;min-height:100vh}
+.side h1{font-size:clamp(30px,3.6vw,44px);line-height:1.08}
+.side p{color:var(--ink2);margin-top:14px;max-width:26em;font-size:16.5px}
+.side ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;color:var(--ink2);font-size:15px;max-width:26em}
+.side li{padding-left:20px;position:relative}.side li::before{content:"";position:absolute;left:0;top:.7em;width:9px;height:3px;border-radius:2px;background:var(--gold)}
+.ctr{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.pill{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 15px;font-size:14px}
+.pill.on{background:var(--teal);color:var(--teal-t);border-color:var(--teal)}
+.disc{margin-top:26px;font-size:13px;color:var(--muted);max-width:30em;border-top:1px dashed var(--muted);padding-top:12px}
+.device{width:390px;height:800px;background:var(--shell);border-radius:50px;padding:11px;box-shadow:0 40px 80px -30px rgba(5,25,24,.55);position:relative}
+.app{width:100%;height:100%;border-radius:40px;background:var(--panel);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.status{height:44px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 6px;font-size:13px;font-weight:600}
+.view{flex:1;overflow-y:auto;padding:4px 18px 18px;scrollbar-width:none}
+.view::-webkit-scrollbar{display:none}
+.tabs{flex:none;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--panel);padding:6px 6px 14px}
+.tabs button{border:0;background:none;display:grid;justify-items:center;gap:2px;padding:6px 0;font-size:11px;color:var(--muted);border-radius:12px}
+.tabs button svg{width:22px;height:22px}
+.tabs button.on{color:var(--teal);font-weight:600}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:6px 0 12px}
+.brand{font-family:"Bricolage Grotesque";font-weight:700;font-size:22px;color:var(--host);letter-spacing:-.03em}
+.av-ico{width:34px;height:34px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:12px;font-weight:600;border:1px solid var(--line)}
+h2.t{font-size:24px;line-height:1.15;margin:2px 0 4px}
+.sub{color:var(--muted);font-size:13.5px}
+.card{border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:12px;background:var(--panel)}
+.card.soft{background:var(--soft);border-color:transparent}
+.lbl{font-size:12px;color:var(--muted)}
+.big{font-family:"Bricolage Grotesque";font-weight:700;font-size:32px;letter-spacing:-.03em;line-height:1.1}
+.mid{font-family:"Bricolage Grotesque";font-weight:700;font-size:19px;letter-spacing:-.02em}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 0;font-size:14px}
+.row span:first-child{color:var(--muted)}
+.row b{font-weight:600;text-align:right}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;height:100%;background:var(--teal);border-radius:5px;transition:width .5s}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:13px;background:var(--teal);color:var(--teal-t);font-weight:600;font-size:15px;text-align:center;margin-top:12px}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.sm{display:inline-block;width:auto;padding:8px 14px;font-size:13px;margin-top:0;border-radius:11px}
+.tag{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;font-weight:600}
+.t-open{background:var(--soft);color:var(--ink2)}.t-adv{background:var(--gold-bg);color:var(--gold)}.t-paid{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.chips{display:flex;gap:8px;margin:10px 0 2px}
+.chips button{border:1px solid var(--line);background:none;border-radius:999px;padding:6px 13px;font-size:13px}
+.chips button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.inv{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}
+.inv:last-child{border:0}
+.inv b{font-weight:600}
+.empty{text-align:center;color:var(--muted);padding:34px 10px;font-size:14px}
+.spark{display:flex;gap:6px;align-items:flex-end;height:46px;margin-top:10px}
+.spark i{flex:1;background:var(--teal);opacity:.75;border-radius:4px 4px 2px 2px}
+.fac{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.fac:last-child{border:0}.fac small{grid-column:1;color:var(--muted);font-size:12px}
+.fac b{grid-row:1;grid-column:2;font-weight:600}
+.fac b.s{color:var(--ok)}.fac b.g{color:var(--teal)}.fac b.f{color:var(--gold)}
+.stack{display:flex;height:30px;border-radius:9px;overflow:hidden;gap:2px;margin:10px 0}
+.key{display:flex;align-items:center;gap:8px;font-size:13.5px;padding:3px 0}.key b{margin-left:auto;font-weight:600}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+.sw2{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.sw2:last-child{border:0}
+.sw2 small{display:block;color:var(--muted);font-size:12px}
+.tg{width:46px;height:28px;border-radius:15px;border:0;background:var(--line);position:relative;flex:none;transition:.2s}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tg[aria-checked="true"]{background:var(--teal)}.tg[aria-checked="true"]::after{left:21px}
+.warn{background:var(--gold-bg);border-radius:14px;padding:12px 14px;margin-top:12px;font-size:14px;color:var(--ink)}
+:root[data-theme="dark"] .warn{color:#F4E9BE}
+.meter{display:flex;gap:2px;height:20px;border-radius:7px;overflow:hidden;margin:8px 0 6px}
+.meter i{display:block}
+.link{background:none;border:0;color:var(--teal);font-size:13.5px;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+/* sheet */
+.sheet{position:absolute;inset:0;background:var(--panel);z-index:30;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.sheet.open{transform:none;pointer-events:auto}
+.sh-h{display:flex;justify-content:space-between;align-items:center;padding:50px 18px 6px}
+.sh-h button{border:0;background:var(--soft);width:34px;height:34px;border-radius:50%;font-size:16px}
+.sh-b{flex:1;overflow-y:auto;padding:4px 18px 22px;display:flex;flex-direction:column}
+.sh-b .btn{margin-top:auto}
+.steps{display:flex;gap:6px;padding:0 18px}.steps i{flex:1;height:4px;border-radius:3px;background:var(--line)}.steps i.on{background:var(--teal)}
+input[type=range]{width:100%;accent-color:var(--teal);height:30px;margin:6px 0 0}
+.chk{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-inline:0;border-top:0;width:100%;text-align:left;font-size:14.5px}
+.box{width:22px;height:22px;border-radius:7px;border:2px solid var(--muted);flex:none;display:grid;place-items:center;color:transparent;transition:.2s}
+.chk[aria-checked="true"] .box{background:var(--ok);border-color:var(--ok);color:#fff}
+.ok-ring{width:68px;height:68px;border-radius:50%;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok);display:grid;place-items:center;font-size:34px;margin:14px auto 8px}
+.toast{position:absolute;left:18px;right:18px;bottom:92px;background:var(--ink);color:var(--panel);padding:11px 14px;border-radius:13px;font-size:13.5px;z-index:40;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.toast.on{opacity:1;transform:none}
+/* Aval marker */
+.mark .av{position:relative;outline:2px dashed var(--gold);outline-offset:3px;border-radius:14px}
+.mark .av::after{content:"Aval";position:absolute;top:-9px;right:10px;background:var(--gold);color:#1a1400;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:7px;z-index:2}
+@media(max-width:900px){
+  .page{display:block;padding:0;min-height:100svh}
+  .side{display:none}
+  .device{width:100%;height:100svh;border-radius:0;padding:0;box-shadow:none;background:var(--panel)}
+  .app{border-radius:0}.status{height:max(20px,env(safe-area-inset-top))}
+  .mob{display:flex}
+}
+.mob{display:none;gap:8px;padding:0 18px 4px;overflow-x:auto}
+.mob .pill{white-space:nowrap;font-size:13px;padding:6px 12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.side,.mob{display:none!important}
+.page{display:flex;justify-content:center;align-items:center;max-width:none;padding:16px;min-height:100vh}
+.device{height:min(800px,calc(100vh - 32px))}
+@media(max-width:900px){.page{padding:0;display:block}.device{height:100svh}}
+html,body{background:transparent!important}.toast{display:none!important}
+</style>
+</head>
+<body>
+<div class="page">
+ <div class="side">
+  <h1>A working seller app with Aval inside it.</h1>
+  <p>This is Mizan, an example B2B marketplace. Everything in the phone responds: take an advance, watch the limit fall, then simulate the buyer paying and watch it come back.</p>
+  <ul>
+   <li>Start on <b>Invoices</b> and press an advance button.</li>
+   <li>Open the <b>Credit</b> tab to see why the limit is what it is.</li>
+   <li>In <b>Activity</b>, simulate day 45 to see repayment at source.</li>
+  </ul>
+  <div class="ctr">
+   <button class="pill" id="pMark" aria-pressed="false">Show what Aval adds</button>
+   <button class="pill" id="pTheme">Dark mode</button>
+   <button class="pill" id="pReset">Reset demo</button>
+  </div>
+  <div class="disc">Academic concept for the FinTech Shark Tank assignment, SP Jain School of Global Management. Seller, platform and all figures are synthetic. No real lending takes place.</div>
+ </div>
+ <div class="device"><div class="app" id="app">
+  <div class="status"><span id="clk">9:41</span><span>5G ▮▮▮</span></div>
+  <div class="mob"><button class="pill" id="mMark">Show what Aval adds</button><button class="pill" id="mTheme">Theme</button><button class="pill" id="mReset">Reset</button></div>
+  <div class="view" id="view"></div>
+  <nav class="tabs" id="tabs"></nav>
+  <div class="sheet" id="sheet" aria-modal="true" role="dialog"></div>
+  <div class="toast" id="toast" role="status"></div>
+ </div></div>
+</div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var f=function(n){return Math.round(n).toLocaleString('en-US')};
+var LIMIT=235000,FEE=0.03,TERM=45,MINADV=20000;
+var root=document.documentElement;
+function fresh(){return{tab:'home',filter:'all',consent:[0,0,0],adv:[],mark:false,held:false,
+ inv:[{id:'INV-2041',b:'Gulf Mart',v:150000,s:'open',d:'due in 41 days'},{id:'INV-2044',b:'Deira Foods',v:62000,s:'open',d:'due in 38 days'},{id:'INV-2047',b:'Gulf Mart',v:98500,s:'open',d:'due in 52 days'},{id:'INV-2036',b:'Al Barsha Retail',v:41200,s:'paid',d:'paid 3 days ago'}],
+ flow:null}}
+var S=fresh();
+function used(){return S.adv.filter(function(a){return a.st==='active'}).reduce(function(t,a){return t+a.amt},0)}
+function avail(){return LIMIT-used()}
+function maxFor(i){return Math.min(Math.floor(i.v*0.8/1000)*1000,avail())}
+function inv(id){return S.inv.filter(function(i){return i.id===id})[0]}
+var ICON={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',invoices:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',credit:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1 1-1.7 2.5-1.7s2.5.7 2.5 1.7-1 1.5-2.5 1.8-2.5.8-2.5 1.8 1 1.8 2.5 1.8 2.5-.8 2.5-1.8"/>',activity:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',account:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'};
+var TABS=[['home','Home'],['invoices','Invoices'],['credit','Credit'],['activity','Activity'],['account','Account']];
+function tabs(){$('tabs').innerHTML=TABS.map(function(t){return '<button data-a="tab" data-v="'+t[0]+'" class="'+(S.tab===t[0]?'on':'')+'" aria-label="'+t[1]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ICON[t[0]]+'</svg>'+t[1]+'</button>'}).join('')}
+function head(){return '<div class="hd"><span class="brand">Mizan</span><span class="av-ico">AN</span></div>'}
+function pill(s){return s==='open'?'<span class="tag t-open">Open</span>':s==='adv'?'<span class="tag t-adv">Advanced</span>':'<span class="tag t-paid">Paid</span>'}
+
+function vHome(){
+ var u=used(),pc=Math.round(u/LIMIT*100),act=S.adv.filter(function(a){return a.st==='active'});
+ var open=S.inv.filter(function(i){return i.s==='open'});
+ return head()+'<h2 class="t">Hello, Al Noor Trading</h2><div class="sub">Dubai · Mizan seller since 2024</div>'+
+ '<div class="card"><div class="lbl">Sales this month</div><div class="mid">AED 58,400</div><div class="spark" aria-hidden="true"><i style="height:45%"></i><i style="height:60%"></i><i style="height:52%"></i><i style="height:78%"></i><i style="height:66%"></i><i style="height:92%"></i></div></div>'+
+ '<div class="card av"><div style="display:flex;justify-content:space-between"><span class="lbl">Working capital available</span><span class="tag t-adv">Pre-approved</span></div><div class="big">AED '+f(avail())+'</div><div class="bar"><i style="width:'+pc+'%"></i></div><div class="lbl">AED '+f(u)+' in use of AED '+f(LIMIT)+'</div><button class="btn" data-a="flow">Get an advance</button></div>'+
+ (act.length?'<div class="card"><div class="lbl">Advance in progress</div>'+act.map(function(a){return '<div class="row"><span>'+a.inv+'</span><b>AED '+f(a.repay)+' due day '+TERM+'</b></div>'}).join('')+'<button class="link" data-a="tab" data-v="activity">Go to Activity</button></div>':'')+
+ '<div class="card"><div class="lbl">Waiting on buyers</div>'+(open.length?open.map(function(i){return '<div class="row"><span>'+i.b+' · '+i.id+'</span><b>AED '+f(i.v)+'</b></div>'}).join(''):'<div class="empty">Nothing outstanding.</div>')+'<button class="link" data-a="tab" data-v="invoices">See all invoices</button></div>';
+}
+function vInv(){
+ var L=S.inv.filter(function(i){var s=i.s;return S.filter==='all'||(S.filter==='open'&&s==='open')||(S.filter==='adv'&&s==='adv')||(S.filter==='paid'&&s==='paid')});
+ return head()+'<h2 class="t">Invoices</h2><div class="chips">'+[['all','All'],['open','Open'],['adv','Advanced'],['paid','Paid']].map(function(c){return '<button data-a="filter" data-v="'+c[0]+'" class="'+(S.filter===c[0]?'on':'')+'">'+c[1]+'</button>'}).join('')+'</div>'+
+ (L.length?L.map(function(i){var m=i.s==='open'?maxFor(i):0;return '<div class="inv"><div><b>'+i.b+'</b><div class="lbl">'+i.id+' · '+i.d+'</div><div style="margin-top:6px">'+pill(i.s)+'</div></div><div style="text-align:right"><b>AED '+f(i.v)+'</b>'+(i.s==='open'?'<div style="margin-top:8px" class="av">'+(m>=MINADV?'<button class="btn sm" data-a="flow" data-v="'+i.id+'">Advance up to '+f(m)+'</button>':'<span class="lbl">Limit too low</span>')+'</div>':'')+'</div></div>'}).join(''):'<div class="empty">No invoices in this view.</div>');
+}
+function vCredit(){
+ var fac=[['Account age','96 weeks on Mizan','Strong','s'],['Sales scale','AED 691,732 in 12 months','Good','g'],['Growth','Sales trending up','Good','g'],['Steadiness','Low month-to-month swings','Strong','s'],['Buyer spread','Largest buyer is 31% of sales','Good','g'],['Disputes','Few buyer disputes','Strong','s'],['Returns','Low return rate','Strong','s'],['Payment speed','Buyers pay in about 62 days','Fair','f'],['Cash buffer','Healthy balance after payouts','Good','g']];
+ var review=S.held?'<div class="warn"><b>Limit held</b><div style="margin-top:4px">One buyer is 71% of this seller’s sales. If that buyer pays late, sales stall, so the limit stays where it is until sales spread across more buyers.</div><div class="meter"><i style="width:71%;background:var(--c2)"></i><i style="width:14%;background:var(--c1)"></i><i style="width:9%;background:var(--c3)"></i><i style="width:6%;background:var(--muted)"></i></div><div class="lbl">Largest buyer 71% · three others 29%</div></div>':'<div class="card soft"><div class="row"><span>Monthly review</span><b style="color:var(--ok)">Limit stands</b></div><div class="lbl">No single buyer dominates sales, so there is no reason to hold the limit.</div></div>';
+ return head()+'<h2 class="t">Your credit</h2><div class="sub">How the limit and price are set</div>'+
+ '<div class="card av"><div class="lbl">Limit</div><div class="big">AED '+f(LIMIT)+'</div><div class="row"><span>Default estimate</span><b>0.42%</b></div><div class="row"><span>Typical term</span><b>45 days</b></div><div class="row"><span>Fee</span><b>3.00%</b></div><div class="lbl">Capped at a third of 12-month sales.</div></div>'+
+ '<div class="card av"><div class="mid" style="margin-bottom:4px">What we looked at</div>'+fac.map(function(x){return '<div class="fac"><span>'+x[0]+'</span><b class="'+x[3]+'">'+x[2]+'</b><small>'+x[1]+'</small></div>'}).join('')+'</div>'+
+ '<div class="card av"><div class="mid">Where the 3.00% goes</div><div class="stack"><i style="width:53.3%;background:var(--c1)"></i><i style="width:13.4%;background:var(--c3)"></i><i style="width:33.3%;background:var(--c2)"></i></div><div class="key"><span class="sw" style="background:var(--c1)"></span>Licensed partner (funding and losses)<b>1.60%</b></div><div class="key"><span class="sw" style="background:var(--c3)"></span>Mizan<b>0.40%</b></div><div class="key"><span class="sw" style="background:var(--c2)"></span>Aval<b>1.00%</b></div></div>'+
+ '<div class="av" style="margin-top:12px">'+review+'</div><button class="link" data-a="held">'+(S.held?'Show a seller whose limit stands':'Show a seller whose limit is held')+'</button>';
+}
+function vAct(){
+ var A=S.adv.slice().reverse();
+ return head()+'<h2 class="t">Activity</h2><div class="sub">Advances and repayments</div>'+
+ (A.length?A.map(function(a){
+  if(a.st==='active')return '<div class="card av"><div class="row"><b>'+a.inv+' · '+inv(a.inv).b+'</b><span class="tag t-adv">Active</span></div><div class="row"><span>Advanced</span><b>AED '+f(a.amt)+'</b></div><div class="row"><span>Repay on day '+TERM+'</span><b>AED '+f(a.repay)+'</b></div><div class="bar"><i style="width:0%"></i></div><div class="lbl">Day 0 of '+TERM+'. Repayment is taken from the buyer’s payment.</div><button class="btn ghost" data-a="pay" data-v="'+a.id+'">Simulate day '+TERM+': buyer pays Mizan</button></div>';
+  return '<div class="card"><div class="row"><b>'+a.inv+' · '+inv(a.inv).b+'</b><span class="tag t-paid">Repaid</span></div><div class="row"><span>Buyer paid Mizan</span><b>AED '+f(a.sv)+'</b></div><div class="row"><span>Taken for advance + fee</span><b>– AED '+f(a.repay)+'</b></div><div class="row"><span>Paid to you</span><b>AED '+f(a.sv-a.repay)+'</b></div></div>'}).join(''):'<div class="empty">No advances yet.<br>Take one from Home or Invoices.<br><button class="btn sm" style="margin-top:14px" data-a="tab" data-v="invoices">Go to Invoices</button></div>');
+}
+function vAcc(){
+ var sw=function(l,s,id,on){return '<div class="sw2"><div>'+l+'<small>'+s+'</small></div><button class="tg" role="switch" aria-checked="'+(on?'true':'false')+'" aria-label="'+l+'" data-a="'+id+'"></button></div>'};
+ var all=S.consent[0]&&S.consent[1]&&S.consent[2];
+ return head()+'<h2 class="t">Account</h2><div class="card"><div class="row"><span>Business</span><b>Al Noor Trading</b></div><div class="row"><span>On Mizan</span><b>96 weeks</b></div></div>'+
+ '<div class="card av"><div class="mid" style="margin-bottom:2px">Credit permissions</div>'+sw('Share sales data with Aval','Used to set your limit','c0',S.consent[0])+sw('Credit check by licensed partner','Needed to fund an advance','c1',S.consent[1])+sw('Repay from Mizan settlements','Deducted when buyers pay','c2',S.consent[2])+'<div class="lbl" style="margin-top:6px">'+(all?'All permissions are on.':'Turn all three on to take an advance.')+'</div></div>'+
+ '<div class="card">'+sw('Show what Aval adds','Marks the parts Aval provides','mk',S.mark)+sw('Dark mode','','th',isDark())+'</div>'+
+ '<button class="btn ghost" data-a="reset">Reset demo</button><div class="disc" style="margin-top:16px;font-size:12.5px;color:var(--muted)">Academic concept. Synthetic data. Mizan is a made-up platform used to show how a platform keeps its own brand while Aval runs underneath.</div>';
+}
+var V={home:vHome,invoices:vInv,credit:vCredit,activity:vAct,account:vAcc};
+function render(keepScroll){var v=$('view'),y=v.scrollTop;v.innerHTML=V[S.tab]();if(keepScroll)v.scrollTop=y;else v.scrollTop=0;tabs();$('app').classList.toggle('mark',S.mark);
+ $('pMark').classList.toggle('on',S.mark);$('pMark').setAttribute('aria-pressed',S.mark);$('mMark').classList.toggle('on',S.mark);
+ var d=isDark();$('pTheme').textContent=d?'Light mode':'Dark mode'}
+function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
+
+/* flow sheet: 0 pick, 1 amount, 2 consent, 3 done */
+function openFlow(id){S.flow={step:id?1:0,id:id||null,amt:0};if(id){var i=inv(id);S.flow.amt=Math.max(MINADV,Math.min(maxFor(i),Math.round(i.v*0.8/10000)*10000));}drawFlow();$('sheet').classList.add('open')}
+function closeFlow(){S.flow=null;$('sheet').classList.remove('open');render(true)}
+function drawFlow(){
+ var F=S.flow,sh=$('sheet'),h='';
+ var st='<div class="steps">'+[0,1,2,3].map(function(n){return '<i class="'+(n<=F.step?'on':'')+'"></i>'}).join('')+'</div>';
+ var top=function(t,back){return '<div class="sh-h"><div>'+(back?'<button data-a="fback" aria-label="Back" style="margin-right:8px">←</button>':'')+'<span class="mid">'+t+'</span></div><button data-a="fclose" aria-label="Close">✕</button></div>'+st};
+ if(F.step===0){var op=S.inv.filter(function(i){return i.s==='open'});
+  h=top('Choose an invoice')+'<div class="sh-b"><div class="sub" style="margin-bottom:6px">Available to advance: AED '+f(avail())+'</div>'+op.map(function(i){var m=maxFor(i);return '<button class="chk" '+(m>=MINADV?'data-a="fpick" data-v="'+i.id+'"':'disabled style="opacity:.4"')+' role="button"><div style="flex:1"><b>'+i.b+'</b><div class="lbl">'+i.id+' · '+i.d+'</div></div><div style="text-align:right"><b>AED '+f(i.v)+'</b><div class="lbl">'+(m>=MINADV?'up to '+f(m):'limit too low')+'</div></div></button>'}).join('')+(op.length?'':'<div class="empty">No open invoices.</div>')+'</div>';
+ }else if(F.step===1){var i=inv(F.id),m=maxFor(i),fee=Math.round(F.amt*FEE);
+  h=top('How much?',true)+'<div class="sh-b"><div class="card soft" style="margin-top:6px"><div class="row"><b>'+i.b+' · '+i.id+'</b><b>AED '+f(i.v)+'</b></div></div><div class="card"><div class="lbl">Advance</div><div class="big" id="fa">AED '+f(F.amt)+'</div><input type="range" id="fr" min="'+MINADV+'" max="'+m+'" step="1000" value="'+F.amt+'" aria-label="Advance amount"><div class="lbl">Minimum AED 20,000 · up to AED '+f(m)+'</div></div><div class="card av"><div class="row"><span>Fee (3.00%)</span><b id="ff">AED '+f(fee)+'</b></div><div class="row"><span>You repay</span><b id="fp">AED '+f(F.amt+fee)+'</b></div><div class="row"><span>Term</span><b>'+TERM+' days</b></div><div class="row"><span>Annualised (simple)</span><b>24.3%</b></div></div><button class="btn" data-a="fnext">Review and consent</button></div>';
+ }else if(F.step===2){var i2=inv(F.id),fee2=Math.round(F.amt*FEE),all=S.consent[0]&&S.consent[1]&&S.consent[2];
+  var L=['Share my sales data with Aval','Allow a credit check by the licensed partner','Repay from my Mizan settlements'];
+  h=top('Consent',true)+'<div class="sh-b"><div class="card soft" style="margin-top:6px"><div class="lbl">You will receive</div><div class="mid">AED '+f(F.amt)+'</div><div class="lbl">and repay AED '+f(F.amt+fee2)+' in '+TERM+' days, taken from the buyer’s payment.</div></div><div class="av" style="margin-top:6px">'+L.map(function(t,k){return '<button class="chk" role="checkbox" aria-checked="'+(S.consent[k]?'true':'false')+'" data-a="ftick" data-v="'+k+'"><span class="box">✓</span>'+t+'</button>'}).join('')+'</div><div class="lbl" style="margin-top:10px">The lender of record is a licensed partner, not Aval.</div><button class="btn" data-a="fgo" '+(all?'':'disabled')+'>Take AED '+f(F.amt)+'</button></div>';
+ }else{var a=S.adv[S.adv.length-1];
+  h='<div class="sh-h"><span></span><button data-a="fclose" aria-label="Close">✕</button></div><div class="sh-b" style="text-align:center"><div class="ok-ring">✓</div><h2 class="t">AED '+f(a.amt)+' is on its way</h2><div class="sub">to your Mizan payout account</div><div class="card" style="text-align:left"><div class="row"><span>Limit remaining</span><b>AED '+f(avail())+'</b></div><div class="row"><span>Repay</span><b>AED '+f(a.repay)+' on day '+TERM+'</b></div><div class="row"><span>How</span><b>From '+inv(a.inv).b+'’s payment</b></div></div><button class="btn" data-a="fact">See it in Activity</button><button class="btn ghost" data-a="fclose" style="margin-top:8px">Back to app</button></div>';}
+ sh.innerHTML=h;
+}
+var tt;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},2400)}
+
+/* events */
+document.addEventListener('click',function(e){
+ var el=e.target.closest('[data-a]');if(!el)return;var a=el.getAttribute('data-a'),v=el.getAttribute('data-v');
+ var F=S.flow;
+ switch(a){
+  case 'tab':S.tab=v;render();break;
+  case 'filter':S.filter=v;render(true);break;
+  case 'flow':openFlow(v);break;
+  case 'held':S.held=!S.held;render(true);break;
+  case 'pay':var ad=S.adv.filter(function(x){return x.id===+v})[0],iv=inv(ad.inv);ad.st='done';ad.sv=iv.v;iv.s='paid';iv.d='paid just now';render(true);toast('Settlement received. AED '+f(ad.repay)+' repaid, AED '+f(ad.sv-ad.repay)+' paid to you.');break;
+  case 'c0':case 'c1':case 'c2':var k=+a[1];S.consent[k]=S.consent[k]?0:1;render(true);break;
+  case 'mk':toggleMark();break;
+  case 'th':toggleTheme();break;
+  case 'reset':doReset();break;
+  case 'fclose':closeFlow();break;
+  case 'fback':F.step=Math.max(0,F.step-1);if(F.step===0)F.id=null;drawFlow();break;
+  case 'fpick':F.id=v;var i=inv(v);F.amt=Math.max(MINADV,Math.min(maxFor(i),Math.round(i.v*0.8/10000)*10000));F.step=1;drawFlow();break;
+  case 'fnext':F.step=2;drawFlow();break;
+  case 'ftick':var q=+v;S.consent[q]=S.consent[q]?0:1;drawFlow();break;
+  case 'fgo':var i3=inv(F.id),fee=Math.round(F.amt*FEE);S.adv.push({id:S.adv.length+1,inv:F.id,amt:F.amt,fee:fee,repay:F.amt+fee,st:'active'});i3.s='adv';i3.d='advance active';F.step=3;drawFlow();break;
+  case 'fact':S.tab='activity';closeFlow();render();break;
+ }
+});
+document.addEventListener('input',function(e){if(e.target.id==='fr'){var F=S.flow;F.amt=+e.target.value;var fee=Math.round(F.amt*FEE);$('fa').textContent='AED '+f(F.amt);$('ff').textContent='AED '+f(fee);$('fp').textContent='AED '+f(F.amt+fee)}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&S.flow)closeFlow()});
+function toggleMark(){S.mark=!S.mark;render(true)}
+function toggleTheme(){root.setAttribute('data-theme',isDark()?'light':'dark');render(true)}
+function doReset(){var m=S.mark;S=fresh();S.mark=m;closeFlow();S.tab='home';render();toast('Demo reset')}
+$('pMark').onclick=$('mMark').onclick=toggleMark;$('pTheme').onclick=$('mTheme').onclick=toggleTheme;$('pReset').onclick=$('mReset').onclick=doReset;
+function clock(){var d=new Date();$('clk').textContent=d.getHours()+':'+('0'+d.getMinutes()).slice(-2)}clock();setInterval(clock,30000);
+render();
+})();
+</script>
+</body>
+</html>
