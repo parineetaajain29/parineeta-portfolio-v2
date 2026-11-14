@@ -132,22 +132,12 @@ export function ScrollReveal({ text, className = "" }: { text: string; className
   const ref = useRef<HTMLParagraphElement>(null);
   const words = text.split(" ");
   useEffect(() => {
-    const el = ref.current!; let raf = 0;
-    const upd = () => {
-      const r = el.getBoundingClientRect(), vh = innerHeight;
-      const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (vh * 0.45 + r.height * 0.6)));
-      const spans = el.children;
-      for (let i = 0; i < spans.length; i++) {
-        const t = Math.min(1, Math.max(0, p * (words.length + 3) - i));
-        (spans[i] as HTMLElement).style.opacity = String(0.16 + 0.84 * t);
-        (spans[i] as HTMLElement).style.transform = `translateY(${(1 - t) * 6}px)`;
-      }
-    };
-    const on = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(upd); };
-    upd(); addEventListener("scroll", on, { passive: true }); addEventListener("resize", on);
-    return () => { cancelAnimationFrame(raf); removeEventListener("scroll", on); removeEventListener("resize", on); };
-  }, [words.length]);
-  return <p ref={ref} className={`sreveal ${className}`} aria-label={text}>{words.map((w, i) => <span key={i} aria-hidden="true">{w} </span>)}</p>;
+    const el = ref.current!;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("in"); io.disconnect(); } }, { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return <p ref={ref} className={`sreveal ${className}`} aria-label={text}>{words.map((w, i) => <span key={i} aria-hidden="true" style={{ ["--i" as string]: i }}>{w} </span>)}</p>;
 }
 
 /* drifting colour blobs (ReactBits "Aurora" idea) */

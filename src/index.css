@@ -510,3 +510,30 @@ h1, h2, h3, h4 { font-weight: 500; }
 [data-theme="light"] .tsw .thumb { box-shadow: 0 2px 8px rgba(20, 33, 61, .35); }
 [data-theme="light"] .nav .tsw button { opacity: .7; }
 [data-theme="light"] .nav .tsw button.on { opacity: 1; }
+
+/* ===== v2.4: About fixes — big stat numbers, clean cards ===== */
+.stats > div > span { font: 400 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); margin-top: 8px; }
+.stats b span { font: inherit; letter-spacing: inherit; text-transform: none; color: inherit; margin: 0; }
+.card { background: rgba(var(--ink-rgb), .06); border: 1px solid rgba(var(--ink-rgb), .16); }
+.card.lit { border-color: rgba(var(--accent-rgb), .55); }
+[data-theme="light"] .card, [data-theme="dawn"] .card { background: rgba(255, 255, 255, .55); border-color: rgba(20, 33, 61, .14); box-shadow: 0 10px 30px -18px rgba(20, 33, 61, .35); }
+[data-theme="light"] .card.lit, [data-theme="dawn"] .card.lit { border-color: rgba(var(--accent-rgb), .6); }
+.navpill, .nav .tsw { backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); }
+
+/* ===== v2.5: smooth About — time-based text reveal, no sticky, light paint while snapping ===== */
+.sreveal span { opacity: .16; transform: translateY(8px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(var(--i, 0) * 35ms); will-change: auto; }
+.sreveal.in span { opacity: 1; transform: none; }
+.about-copy { position: static; }
+html.snapping .aurora i, html.snapping .loop-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .sreveal span { opacity: 1; transform: none; transition: none; } }
+
+/* aurora without filter: blur(90px) was repainting every frame; radial gradients are free */
+.aurora i { filter: none !important; will-change: transform; }
+.aurora i:nth-child(1) { background: radial-gradient(closest-side, rgba(var(--accent-rgb), .42), transparent 100%); }
+.aurora i:nth-child(2) { background: radial-gradient(closest-side, rgba(70, 96, 160, .55), transparent 100%); }
+.aurora i:nth-child(3) { background: radial-gradient(closest-side, rgba(var(--accent-rgb), .28), transparent 100%); }
+[data-theme="light"] .aurora i:nth-child(2), [data-theme="dawn"] .aurora i:nth-child(2) { background: radial-gradient(closest-side, rgba(120, 150, 210, .5), transparent 100%); }
+.aurora i { width: 60vw !important; height: 60vw !important; }
+.aurora i:nth-child(2) { width: 52vw !important; height: 52vw !important; }
+.aurora i:nth-child(3) { width: 40vw !important; height: 40vw !important; }
+.stats { margin-top: 34px; }

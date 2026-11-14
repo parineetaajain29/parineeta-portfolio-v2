@@ -31,12 +31,12 @@ export function useSnapScroll(enabled: boolean) {
       const from = scrollY;
       if (Math.abs(to - from) < 2) return;
       const dur = reduce ? 1 : Math.min(1100, Math.max(650, Math.abs(to - from) * 0.4)), t0 = performance.now();
-      animating = true;
+      animating = true; document.documentElement.classList.add("snapping");
       const step = (now: number) => {
         const p = Math.min(1, (now - t0) / dur);
         window.scrollTo({ top: from + (to - from) * ease(p), behavior: "instant" as ScrollBehavior });
         if (p < 1) raf = requestAnimationFrame(step);
-        else { animating = false; lastWheel = performance.now(); }
+        else { animating = false; document.documentElement.classList.remove("snapping"); lastWheel = performance.now(); }
       };
       raf = requestAnimationFrame(step);
     };
