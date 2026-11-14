@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ArrowUpRight, FileText, Mail } from "lucide-react";
 import { contact } from "../data/projects";
+import { Aurora, CopyEmail, Scramble } from "./Effects";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 
 const rows = [
@@ -32,10 +33,15 @@ export default function Contact() {
 
   return (
     <section className="contact" id="contact" ref={ref}>
+      <Aurora className="strong" />
       <h2 className="big" aria-label="Let's talk.">
         <span className="line">{word("Let’s", 0)}</span>
         <span className="line">{word("talk.", 5)}</span>
       </h2>
+      <div className="ctas">
+        <CopyEmail email={contact.email} />
+        <a className="btn solid fx-mag" href={`mailto:${contact.email}`} data-hover><Scramble text="Send an email" /> ↗</a>
+      </div>
       <div className="rows">
         {rows.map((r) => (
           <a key={r.label} className="row" href={r.href} target={r.href.startsWith("http") ? "_blank" : undefined}
@@ -50,6 +56,7 @@ export default function Contact() {
       <footer>
         <span>© 2026 Parineeta Jain</span>
         <span>Turning data into decisions, and decisions into brands.</span>
+        <a className="totop fx-mag" href="#top" data-hover aria-label="Back to top">↑</a>
       </footer>
     </section>
   );

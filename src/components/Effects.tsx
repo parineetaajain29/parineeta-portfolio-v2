@@ -126,3 +126,61 @@ export function useFx() {
     return () => removeEventListener("pointermove", mv);
   }, []);
 }
+
+/* words light up as you scroll past (ReactBits "Scroll Reveal") */
+export function ScrollReveal({ text, className = "" }: { text: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const words = text.split(" ");
+  useEffect(() => {
+    const el = ref.current!; let raf = 0;
+    const upd = () => {
+      const r = el.getBoundingClientRect(), vh = innerHeight;
+      const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (vh * 0.45 + r.height * 0.6)));
+      const spans = el.children;
+      for (let i = 0; i < spans.length; i++) {
+        const t = Math.min(1, Math.max(0, p * (words.length + 3) - i));
+        (spans[i] as HTMLElement).style.opacity = String(0.16 + 0.84 * t);
+        (spans[i] as HTMLElement).style.transform = `translateY(${(1 - t) * 6}px)`;
+      }
+    };
+    const on = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(upd); };
+    upd(); addEventListener("scroll", on, { passive: true }); addEventListener("resize", on);
+    return () => { cancelAnimationFrame(raf); removeEventListener("scroll", on); removeEventListener("resize", on); };
+  }, [words.length]);
+  return <p ref={ref} className={`sreveal ${className}`} aria-label={text}>{words.map((w, i) => <span key={i} aria-hidden="true">{w} </span>)}</p>;
+}
+
+/* drifting colour blobs (ReactBits "Aurora" idea) */
+export function Aurora({ className = "" }: { className?: string }) {
+  return <div className={`aurora ${className}`} aria-hidden="true"><i /><i /><i /></div>;
+}
+
+/* two-row infinite marquee that reverses direction (ReactBits "Logo Loop" idea) */
+export function SkillsLoop({ items }: { items: string[] }) {
+  const row = [...items, ...items, ...items, ...items];
+  return (
+    <div className="loop" aria-hidden="true">
+      {[0, 1].map((r) => (
+        <div className={`loop-row ${r ? "rev" : ""}`} key={r}>
+          <div className="loop-track">
+            {row.map((t, i) => <span key={i} className={(i + r) % 2 ? "o" : ""}>{t}<b>✦</b></span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* copy-to-clipboard pill with a flip confirmation */
+export function CopyEmail({ email }: { email: string }) {
+  const [done, setDone] = useState(false);
+  const go = async () => {
+    try { await navigator.clipboard.writeText(email); } catch { const t = document.createElement("textarea"); t.value = email; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); }
+    setDone(true); window.setTimeout(() => setDone(false), 1800);
+  };
+  return (
+    <button className={`copy fx-mag ${done ? "done" : ""}`} onClick={go} data-hover aria-label={`Copy email address ${email}`}>
+      <span className="copy-in"><span>Copy email</span><span>Copied ✓</span></span>
+    </button>
+  );
+}

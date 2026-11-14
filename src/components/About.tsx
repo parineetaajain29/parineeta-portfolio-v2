@@ -1,4 +1,4 @@
-import { CountUp, SplitText } from "./Effects";
+import { Aurora, CountUp, ScrollReveal, SkillsLoop, SplitText } from "./Effects";
 import { projects } from "../data/projects";
 import { useEffect, useRef } from "react";
 
@@ -33,16 +33,14 @@ export default function About() {
 
   return (
     <section className="about" id="about">
+      <Aurora />
       <header className="sec-head">
         <span className="squig" aria-hidden="true">〰</span>
         <h2><SplitText text="About" /></h2>
       </header>
       <div className="about-grid">
         <div className="about-copy reveal">
-          <p className="lead">
-            A finance specialist in the making, currently pursuing a Master of Global Business at SP Jain, with a
-            foundation in brand strategy and a growing command of financial analysis.
-          </p>
+          <ScrollReveal className="lead" text="A finance specialist in the making, currently pursuing a Master of Global Business at SP Jain, with a foundation in brand strategy and a growing command of financial analysis." />
           <p>
             Spent time on both sides of the table — shaping brand narratives at Paiwand Studios, now decoding
             markets, models, and money. Outside the classroom: building small tools and dashboards that turn data
@@ -71,6 +69,7 @@ export default function About() {
           ))}
         </div>
       </div>
+      <SkillsLoop items={["Financial modelling", "Advanced Excel", "Quantitative analysis", "Brand strategy", "Valuation", "Scenario planning"]} />
     </section>
   );
 }

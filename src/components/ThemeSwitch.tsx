@@ -16,7 +16,8 @@ export default function ThemeSwitch() {
     return () => window.removeEventListener("themechange", on);
   }, []);
   return (
-    <div className="tsw" role="group" aria-label="Colour theme">
+    <div className="tsw" role="group" aria-label="Colour theme" style={{ ["--i" as string]: opts.findIndex((o) => o.n === t) }}>
+      <span className="thumb" aria-hidden="true" />
       {opts.map(({ n, icon: I, label }) => (
         <button key={n} className={t === n ? "on" : ""} onClick={() => applyTheme(n, true)}
           aria-pressed={t === n} aria-label={`${label} mode`} title={`${label} mode`} data-hover>
