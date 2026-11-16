@@ -9,6 +9,7 @@ export interface Project {
   live?: string;
   caseStudy?: boolean;
   proof?: string;
+  liveLabel?: string;
 }
 
 export const projects: Project[] = [
@@ -81,6 +82,19 @@ export const projects: Project[] = [
     proof: "FinTech Shark Tank · embedded working-capital credit for UAE SMEs",
     github: "",
     caseStudy: true,
+  },
+  {
+    index: "07",
+    short: "UNIVERSE",
+    category: "EDTECH",
+    title: "Study Universe",
+    description:
+      "A study platform where students upload notes and diagrams per subject to build a personal universe. AI turns them into mock exams, MCQs and flashcard memory games, with progress tracked per subject, a map to travel between subjects, and real-time revision duels in friends' universes. Built with Claude.",
+    tags: ["Product", "EdTech", "AI", "Built with Claude"],
+    proof: "Self-initiated build · Google sign-in · AI study packs from uploaded notes",
+    github: "",
+    live: "https://study-universe-one.vercel.app",
+    liveLabel: "Open live site",
   },
 ];
 

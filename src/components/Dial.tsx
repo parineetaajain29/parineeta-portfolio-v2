@@ -28,6 +28,11 @@ const pats: Pat[] = [
     const w = Math.sin(u * 5 - t * 2.2 + Math.sin(v * 3 + t) * 1.6);
     return Math.max(0, (0.5 + 0.5 * w) * (1 - Math.abs(v) * 0.55));
   },
+  (u, v, t) => {
+    const r = Math.hypot(u, v), a = Math.atan2(v, u);
+    const arm = 0.5 + 0.5 * Math.sin(a * 2 + r * 9 - t * 1.3);
+    return Math.min(1, Math.max(0, arm * Math.exp(-r * 1.5) * 1.3 + Math.exp(-r * r * 30) * 0.9));
+  },
 ];
 
 export default function Dial({ onOpen }: { onOpen: () => void }) {
@@ -187,7 +192,7 @@ export default function Dial({ onOpen }: { onOpen: () => void }) {
             )}
             {p.live && (
               <a href={p.live} target="_blank" rel="noreferrer" className="btn solid" data-hover>
-                Live dashboard <ArrowUpRight size={16} />
+                {p.liveLabel ?? "Live dashboard"} <ArrowUpRight size={16} />
               </a>
             )}
             {p.github && (
