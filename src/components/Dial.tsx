@@ -146,7 +146,7 @@ export default function Dial({ onOpen }: { onOpen: () => void }) {
         <div className="dial-wrap">
           <svg viewBox="0 0 600 600" className="dial-svg" role="img" aria-label="Project dial">
             <defs>
-              <path id="ringPath" d={`M ${C} ${C - R} a ${R} ${R} 0 1 1 0 ${2 * R} a ${R} ${R} 0 1 1 0 ${-2 * R}`} />
+              <path id="ringPath" d={`M ${C} ${C + R} a ${R} ${R} 0 1 1 0 ${-2 * R} a ${R} ${R} 0 1 1 0 ${2 * R}`} />
             </defs>
             <circle cx={C} cy={C} r={R - 34} className="ring-inner" />
             <circle cx={C} cy={C} r={R + 36} className="ring-outer" />
@@ -164,10 +164,7 @@ export default function Dial({ onOpen }: { onOpen: () => void }) {
               {projects.map((pr, i) => (
                 <g key={pr.index}>
                   <text className={`lbl ${i === active ? "act" : ""}`} onClick={() => jump(i)} data-hover>
-                    <textPath href="#ringPath" startOffset={`${(i / N) * 100}%`} textAnchor="middle">{pr.short}</textPath>
-                  </text>
-                  <text className="lbl-cat">
-                    <textPath href="#ringPath" startOffset={`${((i + 0.5) / N) * 100}%`} textAnchor="middle">{pr.category}</textPath>
+                    <textPath href="#ringPath" startOffset={`${((0.5 + i / N) % 1) * 100}%`} textAnchor="middle">{pr.short}</textPath>
                   </text>
                 </g>
               ))}
